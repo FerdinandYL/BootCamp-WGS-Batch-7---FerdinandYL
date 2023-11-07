@@ -1,0 +1,11 @@
+Ikutlah sesi belajar bareng
+
+belajar dulu CRUD + login, biar bisa presentasi ke client.
+
+Credentials simpen di storage. Mintanya ke backend.
+
+BUMN ga mau pake tech baru karena kurang percaya.
+
+Kalo custom made, resikonya sulit ganti vendor.
+
+Kalo pake package, banyak orang tau celahnya.
