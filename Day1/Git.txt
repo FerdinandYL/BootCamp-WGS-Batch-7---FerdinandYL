@@ -1,0 +1,22 @@
+PR
+1. Cari teknik penamaan repository.
+Deskriptif terhadap proyek yang sedang dikerjakan. Sebaiknya memberi gambaran pada user/contributor pada repository tersebut.
+Singkat, padat, jelas.
+Lowercase. Sesuai dengan konvensi penamaan Git.
+- dan _ untuk memisahkan antar kata.
+Hindari karakter aneh - aneh.
+Hindari reserved words.
+Kalau mau, bisa pake prefix organisasi. 'wgs-ferdinand-namaproject'
+Jangan masukin nomer versi.
+Sesuaikan dengan gambaran projek di masa depan. future-proof.
+Konsisten.
+
+Sebenernya bisa ganti nama repository di kemudian hari.
+Tapi ngeganggu karena link, referensi, dll akan berubah.
+
+2. Perbedaan clone dan pull
+Clone untuk mengcopy remote repository untuk pertama kali.
+Pull untuk mengganti data pada komputer sesuai dengan repository.
+
+clone mensetting semuanya secara baru termasuk file .git pada folder.
+pull dapat merusak struktur repository.
