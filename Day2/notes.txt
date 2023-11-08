@@ -1,0 +1,62 @@
+Node.js® pake V8 engine, jadi bisa run diluar browser.
+
+Javascript berjalan secara single-thread.
+Sementara NodeJS berjalan secara multi-thread.
+
+===== Concurency =====
+
+A →   → → →
+B   →      → →
+
+Proses A dan B berjalan bergantian sesuai dengan urutan.
+Resource yang digunakan diatur oleh thread.
+
+===== Parallel =====
+
+A → → →
+B → → →
+
+Proses A dan B berjalan secara bersamaan menggunakan resource yang telah dibagi2 prosesor.
+
+===== Synchronous =====
+
+5dtk
+_____
+     4dtk
+     ____
+         6dtk
+         ______
+     waktu total : 15dtk
+
+Proses synchronous menunggu proses yang sedang berjalan untuk selesai sebelum menjalankan proses dalam urutan.
+
+===== Asynchronous =====
+    5dtk
+    _____
+    4dtk
+    ____
+    6dtk
+    ______
+
+     waktu total : 6dtk
+
+Proses Asynchronous berjalan bersamaan.
+
+==========
+Thread (petugas)(ligthweight processor) : mengerjakan task yang diberikan.
+Threadpool (kantor) : tempat menyimpan thread.
+Threadqueue (list kerjaan) : tempat menyimpan task yang sedang menunggu Thread idle.
+==========
+
+Why node js?
+1. Non-blocking I/O
+2. Single thread
+3. Event driven
+4. NPM
+5. No Buffering (karena output data in chunks)
+6. Scalable
+
+Arsitektur
+1. Event queue
+2. Event loop
+3. Event pool (run in C++)
