@@ -1,0 +1,35 @@
+===== Bab 4 =====
+Node memudahkan kita menghandle API.
+Tinggal buat function yg ngehandle request,
+terus kirim ke http.createServer().
+Tapi request handler nya bakalan semakin rumit seiring perkembangan aplikasi.
+
+Express membantu menyelesaikan masalah ini dengan sesuatu yang namanya middleware.
+Middleware membantu memecah request handler yang kompleks menjadi fungsi - fungsi yang lebih sederhana.
+Fungsi - fungsi tersebut biasanya hanya menghandle satu task khusus. Misal parsing atau logging.
+===== ===== =====
+
+===== Node Vanilla stack =====
+Client =1> Node Server =2> Request Handler
+Request Handler =3> Node Server =4> Client
+
+1. Client request sesuatu.
+2. Node Server(HTTP) ngirim request ke fungsi pada Request Handler.
+3. Request Handler mengembalikan response pada Node Server.
+4. Node Server mengirim hasil response kepada client.
+===== ===== =====
+
+===== Middleware Stack =====
+Client =1> Node Server =2> Express App =3> Middleware Stack
+Middleware Stack =4> Node Server =5> Client
+
+1. Client request sesuatu.
+2. Node Server(HTTP) ngirim request ke Express.
+3. Express nambahin fitur pada req res dan dikirim ke Middleware.
+4. Middleware mengembalikan response ke Node Server.
+5. Node Server ngirimin response ke client.
+===== ===== =====
+
+function(request, response, next)
+Param next akan mengarahkan ke middleware selanjutnya ketika dipanggil.
+Dalam stack hanya bisa panggil res.end 1x, kl ga error.
