@@ -1,7 +1,7 @@
 const fs = require('fs');
 const validator = require('validator');
 const readline = require('readline').createInterface({ input: process.stdin, output: process.stdout });
-const path = './Data/contacts.txt';
+const path = './Data/contacts.json';
 
 let contacts = []; // Variabel untuk menyimpan kontak yang akan di load oleh checkFile()
 checkFile(); // Membuat file baru apabila error. Mempopulasi contacts apabila ditemukan file.
