@@ -12,9 +12,7 @@ readline.question("Siapa nama kamu? ", name => {
 });
 
 function pertanyaan(pertanyaan, callback){
-    readline.question(pertanyaan, (input)=>{
-        callback(input);
-    });
+    readline.question(pertanyaan, callback);
 }
 
 function getMobilePhone(){
