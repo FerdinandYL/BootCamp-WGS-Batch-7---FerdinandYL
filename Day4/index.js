@@ -1,9 +1,15 @@
 const fs = require('fs');
 const validator = require('validator');
 const readline = require('readline').createInterface({ input: process.stdin, output: process.stdout });
+const path = './Data/contacts.txt';
+
+let contacts = []; // Variabel untuk menyimpan kontak yang akan di load oleh checkFile()
+checkFile(); // Membuat file baru apabila error. Mempopulasi contacts apabila ditemukan file.
 
 let nama = ''; // Variabel untuk menyimpan nama pengguna
 let nomor = ''; // Variabel untuk menyimpan nomor telepon pengguna
+let alamatEmail = ''; // Variabel untuk menyimpan alamat email pengguna
+let contact; // Variabel untuk menyimpan data kontak. Akan di-assign pada getEmail() setelah mendapat semua data.
 
 console.log(``);
 readline.question("Siapa nama kamu? ", name => {
@@ -31,16 +37,46 @@ function getMobilePhone(){
 function getEmail(){
     pertanyaan("Masukkan email : ", (email)=>{
         if(validator.isEmail(email)){
+            alamatEmail = email;
+            contact = { nama: nama, nomor: nomor, email: alamatEmail }; // Mengassign value pada contact
+            contacts.push(contact); // Menambahkan kontak baru pada contacts
             console.log(``);
             console.log(`Nama : ${nama}`);
             console.log(`Telepon : ${nomor}`);
             console.log(`Email : ${email}`);
             console.log(``);
+            saveContact(); // Save the contact after updating the contacts array
             readline.close(); // Menutup interface readline setelah selesai
         } else {
             console.log(`${email} bukanlah email!`);
             console.log(``);
             getEmail(); // Jika email tidak valid, memanggil ulang fungsi untuk meminta email.
+        }
+    });
+}
+
+function checkFile() {
+    fs.stat(path, (err, data) => {
+        if (err) {
+            fs.writeFileSync(path, '[]', 'utf-8'); // Membuat file kosong berisi array apabila file pada path tidak ditemukan.
+        } else {
+            fs.readFile(path, 'utf-8', (err, data) => {
+                if (err) {
+                    console.error('Terjadi kesalahan saat membuka file:', err);
+                } else {
+                    contacts = JSON.parse(data);
+                }
+            });
+        }
+    });
+}
+
+function saveContact() {
+    fs.writeFile(path, JSON.stringify(contacts), 'utf-8', (err) => {
+        if (err) {
+            console.error('Terjadi kesalahan dalam menyimpan kontak:', err);
+        } else {
+            console.log('Kontak berhasil disimpan.');
         }
     });
 }

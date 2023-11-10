@@ -1,1 +1,4 @@
 ===== NPM(Node Package Manager) =====
+
+===== Contact Code =====
+JSON (methode masih sama (dengan fs))
