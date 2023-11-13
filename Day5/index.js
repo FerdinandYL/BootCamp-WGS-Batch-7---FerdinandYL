@@ -1,9 +1,6 @@
-const fs = require('fs');
 const validator = require('validator');
 const yargs = require('yargs');
-
-const FILE_PATH = './Data/contacts.json'
-let contacts = [];
+const { checkFile, saveContact, getContacts } = require('./services');
 
 const argv = yargs
     .command(
@@ -28,8 +25,9 @@ const argv = yargs
                 type: 'string'
             }
         }, 
-        (argv)=>{
-            checkFile();
+        async (argv)=>{
+            await checkFile();
+            const contacts = getContacts();
             if(!validator.isMobilePhone(argv.telepon,'id-ID')){
                 console.log("Nomor yang dimasukkan bukanlah nomor telepon!!!");
                 console.log("Proses penyimpanan gagal!");
@@ -44,8 +42,9 @@ const argv = yargs
     .command(
         'list',
         'Melihat seluruh kontak', {},
-        ()=>{
-            checkFile();
+        async ()=>{
+            await checkFile();
+            const contacts = getContacts();
             contacts.forEach(element => {
                 console.log(`nama : ${element.nama}, telepon : ${element.telepon}`);
             });
@@ -62,8 +61,9 @@ const argv = yargs
                 type: 'string'
             }
         },
-        (argv)=>{
-            checkFile();
+        async (argv)=>{
+            await checkFile();
+            let contacts = getContacts();
             let index = contacts.findIndex(contact => contact.nama == argv.nama);
             if(index == -1){
                 console.log(`Data tidak ditemukan`);
@@ -74,20 +74,3 @@ const argv = yargs
             }
             process.exit();
     }).help().alias('help', 'h').argv;
-
-async function checkFile() {
-    // Cek direktori apakah ada? Kalau tidak, buat folder.
-    if (!fs.existsSync('Data')) {fs.mkdirSync('Data');}
-    // Cek file apakah ada? Kalau tidak, buat file. Kalau ada, read file tersebut.
-    if (!fs.existsSync(FILE_PATH)) {fs.writeFileSync(FILE_PATH, '[]', 'utf-8');} 
-    else {
-        const data = fs.readFileSync(FILE_PATH, 'utf-8');
-        contacts = JSON.parse(data);
-    }
-}
-
-function saveContact() {
-    fs.writeFileSync(FILE_PATH, JSON.stringify(contacts), 'utf-8', (err) => {
-        if (err) {console.error('Terjadi kesalahan dalam menyimpan kontak:', err);}
-    });
-}
