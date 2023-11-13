@@ -1,88 +1,58 @@
-const pertanyaan = require("./pertanyaan")
 const fs = require('fs');
+const rl = require('readline').createInterface({ input: process.stdin, output: process.stdout });
 const validator = require('validator');
-const path = './Data/contacts.json';
 
-let contacts = []; // Variabel untuk menyimpan kontak yang akan di load oleh checkFile()
-checkFile(); // Membuat file baru apabila error. Mempopulasi contacts apabila ditemukan file.
+const FILE_PATH = './Data/contacts.json'
+
+let nama;
+let nomor;
+let alamatEmail;
+let contacts = [];
+checkFile();
 
 async function main(){
-    let nama = await pertanyaan("Siapa nama kamu?"); // Variabel untuk menyimpan nama pengguna
-    let nomor = await pertanyaan("Apa nomor telepon kamu?"); // Variabel untuk menyimpan nomor telepon pengguna
-    let alamatEmail = await pertanyaan("Apa alamat email kamu?"); // Variabel untuk menyimpan alamat email pengguna
+    // Input Proses
+    nama = await pertanyaan("Siapa nama kamu? ");
+    do{
+        nomor = await pertanyaan("Apa nomor telepon kamu? ");
+        if(!validator.isMobilePhone(nomor,'id-ID')){console.log(`${nomor} bukan nomor telepon!`);console.log('');}
+    }while(!validator.isMobilePhone(nomor,'id-ID'));
+    
+    do{
+        alamatEmail = await pertanyaan("Apa alamat email kamu? ");
+        if(!validator.isEmail(alamatEmail)){console.log(`${alamatEmail} bukan alamat email!`); console.log('');}
+    }while(!validator.isEmail(alamatEmail));
+    rl.close();
+    
+    //Saving data process
     let contact = {nama:nama, nomor:nomor, email:alamatEmail}; // Variabel untuk menyimpan data kontak. Akan di-assign pada getEmail() setelah mendapat semua data.
-    console.log(contact);
+    contacts.push(contact);
+    saveContact();
 }
-
 main();
 
-// console.log(``);
-// readline.question("Siapa nama kamu? ", name => {
-//     nama = name; // Menyimpan nama yang dimasukkan oleh pengguna
-//     getMobilePhone(); // Memanggil fungsi untuk meminta nomor telepon
-// });
-
-// function pertanyaan(pertanyaan, callback){
-//     readline.question(pertanyaan, callback);
-// }
-
-// function getMobilePhone(){
-//     pertanyaan("Masukkan nomor telephone : ", (telepon)=>{
-//         if(validator.isMobilePhone(telepon, 'id-ID')){
-//             nomor = telepon; // Menyimpan nomor telepon jika valid
-//             getEmail(); // Memanggil fungsi untuk meminta alamat email
-//         } else {
-//             console.log(`${telepon} bukanlah nomor telepon!`);
-//             console.log(``);
-//             getMobilePhone(); // Jika nomor telepon tidak valid, memanggil ulang fungsi untuk meminta telepon
-//         }
-//     });
-// }
-
-// function getEmail(){
-//     pertanyaan("Masukkan email : ", (email)=>{
-//         if(validator.isEmail(email)){
-//             alamatEmail = email;
-//             contact = { nama: nama, nomor: nomor, email: alamatEmail }; // Mengassign value pada contact
-//             contacts.push(contact); // Menambahkan kontak baru pada contacts
-//             console.log(``);
-//             console.log(`Nama : ${nama}`);
-//             console.log(`Telepon : ${nomor}`);
-//             console.log(`Email : ${email}`);
-//             console.log(``);
-//             saveContact(); // Save the contact after updating the contacts array
-//             readline.close(); // Menutup interface readline setelah selesai
-//         } else {
-//             console.log(`${email} bukanlah email!`);
-//             console.log(``);
-//             getEmail(); // Jika email tidak valid, memanggil ulang fungsi untuk meminta email.
-//         }
-//     });
-// }
-
-function checkFile() {
-    fs.stat(path, (err, data) => {
-        if (err) {
-            fs.mkdirSync(path);
-            fs.writeFileSync(path, '[]', 'utf-8'); // Membuat file kosong berisi array apabila file pada path tidak ditemukan.
-        } else {
-            fs.readFile(path, 'utf-8', (err, data) => {
-                if (err) {
-                    console.error('Terjadi kesalahan saat membuka file:', err);
-                } else {
-                    contacts = JSON.parse(data);
-                }
-            });
-        }
+function pertanyaan(ask){
+    return new Promise((resolve, reject)=>{
+        rl.question(ask, (input)=>{
+            resolve(input);
+        })
     });
 }
 
+function checkFile() {
+    // Cek direktori apakah ada? Kalau tidak, buat folder.
+    if (!fs.existsSync('Data')) {fs.mkdirSync('Data');}
+    // Cek file apakah ada? Kalau tidak, buat file. Kalau ada, read file tersebut.
+    if (!fs.existsSync(FILE_PATH)) {fs.writeFileSync(FILE_PATH, '[]', 'utf-8');} 
+    else {
+        const data = fs.readFileSync(FILE_PATH, 'utf-8');
+        contacts = JSON.parse(data);
+    }
+}
+
 function saveContact() {
-    fs.writeFile(path, JSON.stringify(contacts), 'utf-8', (err) => {
-        if (err) {
-            console.error('Terjadi kesalahan dalam menyimpan kontak:', err);
-        } else {
-            console.log('Kontak berhasil disimpan.');
-        }
+    fs.writeFile(FILE_PATH, JSON.stringify(contacts), 'utf-8', (err) => {
+        if (err) {console.error('Terjadi kesalahan dalam menyimpan kontak:', err);}
+        else {console.log('Kontak berhasil disimpan.');}
     });
 }

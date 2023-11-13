@@ -1,12 +1,13 @@
 const rl = require('readline').createInterface({ input: process.stdin, output: process.stdout });
-const validator = require('validator');
 
-const pertanyaan = async (ask) => {
+const pertanyaan = (ask) => {
     return new Promise((resolve, reject)=>{
         rl.question(ask, (input)=>{
             resolve(input);
         })
     });
 }
+
+const closeRL = () => {rl.close();}
 
 module.exports = pertanyaan;
