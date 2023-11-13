@@ -3,15 +3,33 @@ const validator = require('validator');
 const yargs = require('yargs');
 
 const FILE_PATH = './Data/contacts.json'
-
 let contacts = [];
-checkFile();
 
 const argv = yargs
     .command(
-        'add-contact', 
-        'Menambahkan data kontak baru', {}, 
+        'add', 
+        'Menambahkan data kontak baru', 
+        {
+            nama:{
+                alias: 'n',
+                describe: 'Nama anda',
+                demandOption: true,
+                type: 'string'
+            },
+            telepon:{
+                alias: 't',
+                describe: 'Nomor Telepon anda',
+                demandOption: true,
+                type: 'string'
+            },
+            email: {
+                alias: 'e',
+                describe: 'Alamat email anda',
+                type: 'string'
+            }
+        }, 
         (argv)=>{
+            checkFile();
             if(!validator.isMobilePhone(argv.telepon,'id-ID')){
                 console.log("Nomor yang dimasukkan bukanlah nomor telepon!!!");
                 console.log("Proses penyimpanan gagal!");
@@ -23,27 +41,39 @@ const argv = yargs
             }
             process.exit();
     })
-    .option(
-        'nama', {
-        alias: 'n',
-        describe: 'Nama anda',
-        demandOption: true,
-        type: 'string'
+    .command(
+        'list',
+        'Melihat seluruh kontak', {},
+        ()=>{
+            checkFile();
+            contacts.forEach(element => {
+                console.log(`nama : ${element.nama}, telepon : ${element.telepon}`);
+            });
+            process.exit();
     })
-    .option(
-        'telepon', {
-        alias: 't',
-        describe: 'Nomor Telepon anda',
-        demandOption: true,
-        type: 'string'
-    })
-    .option(
-        'email', {
-        alias: 'e',
-        describe: 'Alamat email anda',
-        type: 'string'
+    .command(
+        'detail',
+        'Melihat detail kontak berdasarkan nama pada arg -n',
+        {
+            nama:{
+                alias: 'n',
+                describe: 'Nama anda',
+                demandOption: true,
+                type: 'string'
+            }
+        },
+        (argv)=>{
+            checkFile();
+            let index = contacts.findIndex(contact => contact.nama == argv.nama);
+            if(index == -1){
+                console.log(`Data tidak ditemukan`);
+            } else {
+                console.log(`nama    : ${contacts[index].nama}`);
+                console.log(`telepon : ${contacts[index].telepon}`);
+                console.log(`email   : ${contacts[index].email}`);
+            }
+            process.exit();
     }).help().alias('help', 'h').argv;
-
 
 async function checkFile() {
     // Cek direktori apakah ada? Kalau tidak, buat folder.
