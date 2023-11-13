@@ -17,7 +17,6 @@ async function main(){
         nomor = await pertanyaan("Apa nomor telepon kamu? ");
         if(!validator.isMobilePhone(nomor,'id-ID')){console.log(`${nomor} bukan nomor telepon!`);console.log('');}
     }while(!validator.isMobilePhone(nomor,'id-ID'));
-    
     do{
         alamatEmail = await pertanyaan("Apa alamat email kamu? ");
         if(!validator.isEmail(alamatEmail)){console.log(`${alamatEmail} bukan alamat email!`); console.log('');}
