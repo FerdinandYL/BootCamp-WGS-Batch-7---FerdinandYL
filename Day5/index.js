@@ -1,13 +1,9 @@
 const fs = require('fs');
-const rl = require('readline').createInterface({ input: process.stdin, output: process.stdout });
 const validator = require('validator');
 const yargs = require('yargs');
 
 const FILE_PATH = './Data/contacts.json'
 
-// let nama;
-// let nomor;
-// let alamatEmail;
 let contacts = [];
 checkFile();
 
@@ -36,38 +32,16 @@ const argv = yargs
 cli();
 
 function cli(){
-    let contact = {'nama':argv.nama,'telepon':argv.telepon,'email':argv.email};
-    contacts.push(contact);
-    saveContact();
+    if(!validator.isMobilePhone(argv.telepon,'id-ID')){
+        console.log("Nomor yang dimasukkan bukanlah nomor telepon!!!");
+        console.log("Proses penyimpanan gagal!");
+    } else {
+        let contact = {'nama':argv.nama,'telepon':argv.telepon,'email':argv.email};
+        contacts.push(contact);
+        saveContact();
+        console.log('kontak berhasil disimpan!');
+    }
     process.exit();
-}
-
-// async function main(){
-//     // Input Proses
-//     nama = await pertanyaan("Siapa nama kamu? ");
-//     do{
-//         nomor = await pertanyaan("Apa nomor telepon kamu? ");
-//         if(!validator.isMobilePhone(nomor,'id-ID')){console.log(`${nomor} bukan nomor telepon!`);console.log('');}
-//     }while(!validator.isMobilePhone(nomor,'id-ID'));
-//     do{
-//         alamatEmail = await pertanyaan("Apa alamat email kamu? ");
-//         if(!validator.isEmail(alamatEmail)){console.log(`${alamatEmail} bukan alamat email!`); console.log('');}
-//     }while(!validator.isEmail(alamatEmail));
-//     rl.close();
-    
-//     //Saving data process
-//     let contact = {nama:nama, nomor:nomor, email:alamatEmail}; // Variabel untuk menyimpan data kontak. Akan di-assign pada getEmail() setelah mendapat semua data.
-//     contacts.push(contact);
-//     saveContact();
-// }
-// //main();
-
-function pertanyaan(ask){
-    return new Promise((resolve, reject)=>{
-        rl.question(ask, (input)=>{
-            resolve(input);
-        })
-    });
 }
 
 async function checkFile() {
