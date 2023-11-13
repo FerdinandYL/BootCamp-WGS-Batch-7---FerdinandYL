@@ -8,6 +8,21 @@ let contacts = [];
 checkFile();
 
 const argv = yargs
+    .command(
+        'add-contact', 
+        'Menambahkan data kontak baru', {}, 
+        (argv)=>{
+            if(!validator.isMobilePhone(argv.telepon,'id-ID')){
+                console.log("Nomor yang dimasukkan bukanlah nomor telepon!!!");
+                console.log("Proses penyimpanan gagal!");
+            } else {
+                let contact = {'nama':argv.nama,'telepon':argv.telepon,'email':argv.email};
+                contacts.push(contact);
+                saveContact();
+                console.log('kontak berhasil disimpan!');
+            }
+            process.exit();
+    })
     .option(
         'nama', {
         alias: 'n',
@@ -29,20 +44,6 @@ const argv = yargs
         type: 'string'
     }).help().alias('help', 'h').argv;
 
-cli();
-
-function cli(){
-    if(!validator.isMobilePhone(argv.telepon,'id-ID')){
-        console.log("Nomor yang dimasukkan bukanlah nomor telepon!!!");
-        console.log("Proses penyimpanan gagal!");
-    } else {
-        let contact = {'nama':argv.nama,'telepon':argv.telepon,'email':argv.email};
-        contacts.push(contact);
-        saveContact();
-        console.log('kontak berhasil disimpan!');
-    }
-    process.exit();
-}
 
 async function checkFile() {
     // Cek direktori apakah ada? Kalau tidak, buat folder.
@@ -58,6 +59,5 @@ async function checkFile() {
 function saveContact() {
     fs.writeFileSync(FILE_PATH, JSON.stringify(contacts), 'utf-8', (err) => {
         if (err) {console.error('Terjadi kesalahan dalam menyimpan kontak:', err);}
-        else {console.log('Kontak berhasil disimpan.');}
     });
 }
