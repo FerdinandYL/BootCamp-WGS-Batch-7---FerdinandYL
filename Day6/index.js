@@ -96,5 +96,4 @@ const argv = yargs
                 console.log('Update berhasil!');
             }
             process.exit();
-    })
-    .help().alias('help', 'h').argv;
+    }).help().alias('help', 'h').argv;
