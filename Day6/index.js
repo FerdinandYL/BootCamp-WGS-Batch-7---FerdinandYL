@@ -7,23 +7,9 @@ const argv = yargs
         'add', 
         'Menambahkan data kontak baru', 
         {
-            nama:{
-                alias: 'n',
-                describe: 'Nama anda',
-                demandOption: true,
-                type: 'string'
-            },
-            telepon:{
-                alias: 't',
-                describe: 'Nomor Telepon anda',
-                demandOption: true,
-                type: 'string'
-            },
-            email: {
-                alias: 'e',
-                describe: 'Alamat email anda',
-                type: 'string'
-            }
+            nama:{alias: 'n',describe: 'Nama anda',demandOption: true,type: 'string'},
+            telepon:{alias: 't',describe: 'Nomor Telepon anda',demandOption: true,type: 'string'},
+            email:{alias: 'e',describe: 'Alamat email anda',type: 'string'}
         }, 
         async (argv)=>{
             await checkFile();
@@ -53,14 +39,7 @@ const argv = yargs
     .command(
         'detail',
         'Melihat detail kontak berdasarkan nama pada arg -n',
-        {
-            nama:{
-                alias: 'n',
-                describe: 'Nama anda',
-                demandOption: true,
-                type: 'string'
-            }
-        },
+        {nama:{alias: 'n',describe: 'Nama anda',demandOption: true,type: 'string'}},
         async (argv)=>{
             await checkFile();
             let contacts = getContacts();
@@ -76,14 +55,7 @@ const argv = yargs
     }).command(
         'delete',
         'Menghapus data berdasarkan arg --nama',
-        {
-            nama:{
-                alias: 'n',
-                describe: 'Nama anda',
-                demandOption: true,
-                type: 'string'
-            }
-        },
+        {nama:{alias: 'n',describe: 'Nama anda',demandOption: true,type: 'string'}},
         async (argv)=>{
             await checkFile();
             let contacts = getContacts();
@@ -100,27 +72,10 @@ const argv = yargs
         'update',
         'Mengupdate data telepon dan email berdasarkan arg --nama ',
         {
-            nama:{
-                alias: 'n',
-                describe: 'Nama anda',
-                demandOption: true,
-                type: 'string'
-            },
-            namabaru:{
-                alias: 'nb',
-                describe: 'Nama baru anda',
-                type: 'string'
-            },
-            teleponbaru:{
-                alias: 'tb',
-                describe: 'Telepon baru anda',
-                type: 'string'
-            },
-            emailbaru:{
-                alias: 'eb',
-                describe: 'Email baru anda',
-                type: 'string'
-            }
+            nama:{alias: 'n',describe: 'Nama anda',demandOption: true,type: 'string'},
+            namabaru:{alias: 'nb',describe: 'Nama baru anda',type: 'string'},
+            teleponbaru:{alias: 'tb',describe: 'Telepon baru anda',type: 'string'},
+            emailbaru:{alias: 'eb',describe: 'Email baru anda',type: 'string'}
         },
         async (argv)=>{
             let nama;
@@ -132,12 +87,9 @@ const argv = yargs
             if(index == -1){
                 console.log(`Data tidak ditemukan`);
             } else {
-                if(argv.namabaru!=null){nama = argv.namabaru;}
-                else{nama = contacts[index].nama;}
-                if(argv.teleponbaru!=null){telepon = argv.teleponbaru;}
-                else{telepon = contacts[index].telepon;}
-                if(argv.emailbaru!=null){email = argv.emailbaru;}
-                else{email = contacts[index].email;}
+                nama = argv.namabaru != null ? argv.namabaru : contacts[index].nama;
+                telepon = argv.teleponbaru != null ? argv.teleponbaru : contacts[index].telepon;
+                email = argv.emailbaru != null ? argv.emailbaru : contacts[index].email;
                 let contact = {'nama':nama,'telepon':telepon,'email':email};
                 contacts = contacts.splice(index, 1, contact);
                 saveContact();
