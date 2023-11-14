@@ -93,6 +93,55 @@ const argv = yargs
             } else {
                 contacts = contacts.splice(index, 1);
                 saveContact();
+                console.log('Data berhasil dihapus!');
+            }
+            process.exit();
+    }).command(
+        'update',
+        'Mengupdate data telepon dan email berdasarkan arg --nama ',
+        {
+            nama:{
+                alias: 'n',
+                describe: 'Nama anda',
+                demandOption: true,
+                type: 'string'
+            },
+            namabaru:{
+                alias: 'nb',
+                describe: 'Nama baru anda',
+                type: 'string'
+            },
+            teleponbaru:{
+                alias: 'tb',
+                describe: 'Telepon baru anda',
+                type: 'string'
+            },
+            emailbaru:{
+                alias: 'eb',
+                describe: 'Email baru anda',
+                type: 'string'
+            }
+        },
+        async (argv)=>{
+            let nama;
+            let telepon;
+            let email;
+            await checkFile();
+            let contacts = getContacts();
+            let index = contacts.findIndex(contact => contact.nama == argv.nama);
+            if(index == -1){
+                console.log(`Data tidak ditemukan`);
+            } else {
+                if(argv.namabaru!=null){nama = argv.namabaru;}
+                else{nama = contacts[index].nama;}
+                if(argv.teleponbaru!=null){telepon = argv.teleponbaru;}
+                else{telepon = contacts[index].telepon;}
+                if(argv.emailbaru!=null){email = argv.emailbaru;}
+                else{email = contacts[index].email;}
+                let contact = {'nama':nama,'telepon':telepon,'email':email};
+                contacts = contacts.splice(index, 1, contact);
+                saveContact();
+                console.log('Update berhasil!');
             }
             process.exit();
     })
