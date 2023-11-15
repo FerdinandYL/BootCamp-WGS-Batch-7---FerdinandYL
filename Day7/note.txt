@@ -20,4 +20,17 @@ memudahkan pembuatan html pages.
 EJS : Embedded JavaScript Templating Engine
 simple, cepat, dibuat oleh yg ngebuat express.
 
+===== Middleware ======
+function yang punya req, res dan next.
+dulunya antara sistem operasi dengan software dihubungkan oleh middleware.
+sekarang banyak : contoh game engine, database, web app dan web server.
 
+request =1> app =2> response || 
+request =1> middleware =2> app =3> middleware =4> response
+
+a. user-defined middleware :
+    1. aplication level
+    2. router level
+    3. error-handling level
+b. locale
+c. third-party
