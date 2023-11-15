@@ -1,99 +1,51 @@
-const validator = require('validator');
-const yargs = require('yargs');
-const { checkFile, saveContact, getContacts } = require('./services');
+const http = require('http');
+const url = require('url');
+const fs = require('fs');
+const port = 3000;
 
-const argv = yargs
-    .command(
-        'add', 
-        'Menambahkan data kontak baru', 
-        {
-            nama:{alias: 'n',describe: 'Nama anda',demandOption: true,type: 'string'},
-            telepon:{alias: 't',describe: 'Nomor Telepon anda',demandOption: true,type: 'string'},
-            email:{alias: 'e',describe: 'Alamat email anda',type: 'string'}
-        }, 
-        async (argv)=>{
-            await checkFile();
-            const contacts = getContacts();
-            if(!validator.isMobilePhone(argv.telepon,'id-ID')){
-                console.log("Nomor yang dimasukkan bukanlah nomor telepon!!!");
-                console.log("Proses penyimpanan gagal!");
+const server = http.createServer((req, res) => {
+    const parsedUrl = url.parse(req.url, true);
+    const pathname = parsedUrl.pathname;
+
+    if (pathname == '/home' || pathname == '/') {
+        fs.readFile('./home.html', 'utf-8', (err, data)=>{
+            if(err){
+                console.error(`Error reading ${filename}: ${err.message}`);
+                res.writeHead(500, {'Content-Type': 'text/plain'});
+                res.end('Internal Server Error');
             } else {
-                let contact = {'nama':argv.nama,'telepon':argv.telepon,'email':argv.email};
-                contacts.push(contact);
-                saveContact();
-                console.log('kontak berhasil disimpan!');
+                res.writeHead(200, {'Content-Type': 'text/html'});
+                res.end(data);
             }
-            process.exit();
-    })
-    .command(
-        'list',
-        'Melihat seluruh kontak', {},
-        async ()=>{
-            await checkFile();
-            const contacts = getContacts();
-            contacts.forEach(element => {
-                console.log(`nama : ${element.nama}, telepon : ${element.telepon}`);
-            });
-            process.exit();
-    })
-    .command(
-        'detail',
-        'Melihat detail kontak berdasarkan nama pada arg -n',
-        {nama:{alias: 'n',describe: 'Nama anda',demandOption: true,type: 'string'}},
-        async (argv)=>{
-            await checkFile();
-            let contacts = getContacts();
-            let index = contacts.findIndex(contact => contact.nama == argv.nama);
-            if(index == -1){
-                console.log(`Data tidak ditemukan`);
+        });
+    } else if (pathname == '/about') {
+        fs.readFile('./about.html', 'utf-8', (err, data)=>{
+            if(err){
+                console.error(`Error reading ${filename}: ${err.message}`);
+                res.writeHead(500, {'Content-Type': 'text/plain'});
+                res.end('Internal Server Error');
             } else {
-                console.log(`nama    : ${contacts[index].nama}`);
-                console.log(`telepon : ${contacts[index].telepon}`);
-                console.log(`email   : ${contacts[index].email}`);
+                res.writeHead(200, {'Content-Type': 'text/html'});
+                res.end(data);
             }
-            process.exit();
-    }).command(
-        'delete',
-        'Menghapus data berdasarkan arg --nama',
-        {nama:{alias: 'n',describe: 'Nama anda',demandOption: true,type: 'string'}},
-        async (argv)=>{
-            await checkFile();
-            let contacts = getContacts();
-            let index = contacts.findIndex(contact => contact.nama == argv.nama);
-            if(index == -1){
-                console.log(`Data tidak ditemukan`);
+        });
+    } else if (pathname == '/content') {
+        fs.readFile('./content.html', 'utf-8', (err, data)=>{
+            if(err){
+                console.error(`Error reading ${filename}: ${err.message}`);
+                res.writeHead(500, {'Content-Type': 'text/plain'});
+                res.end('Internal Server Error');
             } else {
-                contacts = contacts.splice(index, 1);
-                saveContact();
-                console.log('Data berhasil dihapus!');
+                res.writeHead(200, {'Content-Type': 'text/html'});
+                res.end(data);
             }
-            process.exit();
-    }).command(
-        'update',
-        'Mengupdate data telepon dan email berdasarkan arg --nama ',
-        {
-            nama:{alias: 'n',describe: 'Nama anda',demandOption: true,type: 'string'},
-            namabaru:{alias: 'nb',describe: 'Nama baru anda',type: 'string'},
-            teleponbaru:{alias: 'tb',describe: 'Telepon baru anda',type: 'string'},
-            emailbaru:{alias: 'eb',describe: 'Email baru anda',type: 'string'}
-        },
-        async (argv)=>{
-            let nama;
-            let telepon;
-            let email;
-            await checkFile();
-            let contacts = getContacts();
-            let index = contacts.findIndex(contact => contact.nama == argv.nama);
-            if(index == -1){
-                console.log(`Data tidak ditemukan`);
-            } else {
-                nama = argv.namabaru != null ? argv.namabaru : contacts[index].nama;
-                telepon = argv.teleponbaru != null ? argv.teleponbaru : contacts[index].telepon;
-                email = argv.emailbaru != null ? argv.emailbaru : contacts[index].email;
-                let contact = {'nama':nama,'telepon':telepon,'email':email};
-                contacts = contacts.splice(index, 1, contact);
-                saveContact();
-                console.log('Update berhasil!');
-            }
-            process.exit();
-    }).help().alias('help', 'h').argv;
+        });
+    } else {
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.end('Not found');
+    }
+});
+
+server.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+});

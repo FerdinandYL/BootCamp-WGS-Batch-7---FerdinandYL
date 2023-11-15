@@ -1,6 +1,0 @@
-Coding note :
-*   Codingan yang dipanggil berulang ubah jadi variabel/fungsi.
-    Biar lebih dinamis, meminimalkan error dan mempermudah pemeliharaan code.
-*   Callback hell : fungsi dalam fungsi dalam fungsi dalam fungsi ....
-
-Promise : 
