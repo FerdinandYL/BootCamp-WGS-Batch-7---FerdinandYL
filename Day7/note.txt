@@ -1,0 +1,23 @@
+===== Express =====
+
+fitur :
+1. mudah menangani berbagai method http
+2. model MVC
+3. terintegrasi dengan banyak 'view rendering engine' (templating engine)
+4. middleware
+5. populer
+6. unopinionated : flexible, no fixed rules, easy to uninstall middleware.
+7. support many SQL
+
+installation : npm i express
+
+Express membaca blocking (berurutan)
+
+===== View Engine =====
+membuat static template untuk aplikasi.
+memudahkan pembuatan html pages.
+
+EJS : Embedded JavaScript Templating Engine
+simple, cepat, dibuat oleh yg ngebuat express.
+
+

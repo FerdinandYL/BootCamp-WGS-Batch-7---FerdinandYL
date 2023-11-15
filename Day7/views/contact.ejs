@@ -1,0 +1,16 @@
+<header>
+    <h1>Contacts</h1>
+    <p>Daftar list contacts uji coba express dan ejs.</p>
+</header>
+<table>
+    <tr>
+        <th>Nama</th>
+        <th>Nomor</th>
+    </tr>
+    <% contact.forEach(element => { %>
+        <tr>
+            <td><%= element.nama %></td>
+            <td><%= element.nomor %></td>
+        </tr>
+    <% }) %>
+</table>
