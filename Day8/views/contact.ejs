@@ -1,0 +1,61 @@
+<header>
+    <h1>Contacts</h1>
+    <p>Daftar list contacts uji coba express dan ejs.     
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#TambahKontak">
+        Tambah kontak baru
+      </button>
+    </p>
+    <div class="modal" id="TambahKontak">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Kontak Baru</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="myForm" method="post" action="/contact">
+                        <div class="form-group">
+                        <label for="name">Nama : </label>
+                        <input type="text" class="form-control" id="nama" name="nama" required>
+                        </div>
+                        <div class="form-group">
+                        <label for="phone">Telepon : </label>
+                        <input type="text" class="form-control" id="telepon" name="telepon" required>
+                        </div>
+                        <div class="form-group">
+                        <label for="email">Email : </label>
+                        <input type="email" class="form-control" id="email" name="email">
+                        </div>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+      </div>
+</header>
+<% if (contacts.length<1) { %>
+    <p>Kosong?!</p>
+<% } 
+else { %>
+    <table>
+    <tr>
+        <th>Nama</th>
+        <th>Nomor</th>
+        <th>Action</th>
+    </tr>
+    <% let counter=0; contacts.forEach(element => { %>
+        <tr>
+            <td><%= element.nama %></td>
+            <td><%= element.telepon %></td>
+            <td>
+                <form action="/contact" method="get" style="display: inline-block;">
+                    <button name="id" type="submit" class="btn btn-info" value= <%=counter%><%counter++%>>detail</button>
+                </form>
+                <button type="button" class="btn btn-warning">update</button>
+                <button type="button" class="btn btn-danger">delete</button>            
+            </td>
+        </tr>
+    <% }) %>
+</table>
+<% } %>
+<br>
