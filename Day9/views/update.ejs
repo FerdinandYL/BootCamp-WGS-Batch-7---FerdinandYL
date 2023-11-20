@@ -1,19 +1,28 @@
-<% if (typeof error_msg !== 'undefined') { %>
-    <h1 style="color: red;"> <%= error_msg %> </h1>
-<% } %>
+<div class="row justify-content-center">
+    <div class="card w-50 border-warning" style="width: 18rem;">
+        <div class="card-header bg-warning text-white">
+            <h5 class="text-center">Update Contact Info</h5>
+        </div>
+        <div class="card-body">
+            <form action="/contact" method="post">
+                <label for="name">Nama : </label>
+                <input type="text" class="form-control" id="nama" name="nama" value= <%= contact.nama %> required><br>
+            
+                <label for="phone">Telepon : </label>
+                <input type="text" class="form-control" id="telepon" name="telepon" value= <%= contact.telepon %> required><br>
+                
+                <label for="email">Email : </label>
+                <input type="text" class="form-control" id="email" value= <%= contact.email %> name="email"><br>
+                
+                <input type="hidden" name="method" value="update">
+                <input type="hidden" name="id" value= <%= id %>>
 
-<form action="/contact" method="post">
-    <label for="name">Nama : </label>
-    <input type="text" class="form-control" id="nama" name="nama" value= <%= contact.nama %> required>
-
-    <label for="phone">Telepon : </label>
-    <input type="text" class="form-control" id="telepon" name="telepon" value= <%= contact.telepon %> required>
-    
-    <label for="email">Email : </label>
-    <input type="text" class="form-control" id="email" value= <%= contact.email %> name="email">
-    
-    <input type="hidden" name="method" value="update">
-    <input type="hidden" name="id" value= <%= id %>>
-
-    <button type="submit" class="btn btn-success">Submit</button>
-</form>
+                <% if (typeof error_msg !== 'undefined') { %>
+                    <h7 style="color: red;"> <%= error_msg %> </h7>
+                <% } %>
+                <br>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

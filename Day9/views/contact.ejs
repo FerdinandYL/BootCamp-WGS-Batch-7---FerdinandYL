@@ -1,5 +1,43 @@
-<header>
-    <div class="modal" id="TambahKontak">
+<% if (contacts.length<1) { %>
+    <div class="d-flex align-items-center justify-content-center h-100">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#TambahKontak">
+            Tambah kontak +
+        </button>
+    </div>
+<% } 
+else { %>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" class="align-middle">Nama</th>
+                <th scope="col" class="align-middle">Nomor</th>
+                <th scope="col" class="align-middle">Action
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#TambahKontak">
+                        Tambah kontak +
+                    </button>
+                </th>
+            </tr>
+        </thead>
+    <% let counter=0; contacts.forEach(element => { %>
+        <tr>
+            <td><%= element.nama %></td>
+            <td><%= element.telepon %></td>
+            <td>
+                <form action="/contact" method="get" style="display: inline-block;">
+                    <button name="id" type="submit" class="btn btn-info" value= <%=counter%>>detail</button>
+                </form>
+                <form action="/contact" method="get" style="display: inline-block;">
+                    <button name="update" type="submit" class="btn btn-warning" value= <%=counter%>>update</button>
+                </form>
+                <form action="/contact" method="get" style="display: inline-block;">
+                    <button name="delete" type="submit" class="btn btn-danger" value= <%=counter%><%counter++%>>delete</button>
+                </form>
+            </td>
+        </tr>
+    <% }) %>
+</table>
+<% } %>
+<div class="modal" id="TambahKontak">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -30,42 +68,6 @@
             </div>
         </div>
     </div>
-</header>
-<% if (contacts.length<1) { %>
-    <p>Kosong?!</p>
-<% } 
-else { %>
-    <table class="table table-striped">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col" class="align-middle">Nama</th>
-                <th scope="col" class="align-middle">Nomor</th>
-                <th scope="col" class="align-middle">Action
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#TambahKontak">
-                        Tambah kontak baru
-                    </button>
-                </th>
-            </tr>
-        </thead>
-    <% let counter=0; contacts.forEach(element => { %>
-        <tr>
-            <td><%= element.nama %></td>
-            <td><%= element.telepon %></td>
-            <td>
-                <form action="/contact" method="get" style="display: inline-block;">
-                    <button name="id" type="submit" class="btn btn-info" value= <%=counter%>>detail</button>
-                </form>
-                <form action="/contact" method="get" style="display: inline-block;">
-                    <button name="update" type="submit" class="btn btn-warning" value= <%=counter%>>update</button>
-                </form>
-                <form action="/contact" method="get" style="display: inline-block;">
-                    <button name="delete" type="submit" class="btn btn-danger" value= <%=counter%><%counter++%>>delete</button>
-                </form>
-            </td>
-        </tr>
-    <% }) %>
-</table>
-<% } %>
 <br>
 
 <% if (typeof error_msg !== 'undefined') { %>
