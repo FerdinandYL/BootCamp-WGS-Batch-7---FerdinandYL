@@ -1,4 +1,4 @@
-<% if (contacts.length<1) { %>
+<% if ( typeof contacts === 'undefined' || contacts.length<1) { %>
     <div class="d-flex align-items-center justify-content-center h-100">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#TambahKontak">
             Tambah kontak +
@@ -18,19 +18,19 @@ else { %>
                 </th>
             </tr>
         </thead>
-    <% let counter=0; contacts.forEach(element => { %>
+    <% contacts.forEach(element => { %>
         <tr>
             <td><%= element.nama %></td>
             <td><%= element.telepon %></td>
             <td>
                 <form action="/contact" method="get" style="display: inline-block;">
-                    <button name="id" type="submit" class="btn btn-info" value= <%=counter%>>detail</button>
+                    <button name="id" type="submit" class="btn btn-info" value= <%= element.id %>>detail</button>
                 </form>
                 <form action="/contact" method="get" style="display: inline-block;">
-                    <button name="update" type="submit" class="btn btn-warning" value= <%=counter%>>update</button>
+                    <button name="update" type="submit" class="btn btn-warning" value= <%= element.id %>>update</button>
                 </form>
                 <form action="/contact" method="get" style="display: inline-block;">
-                    <button name="delete" type="submit" class="btn btn-danger" value= <%=counter%><%counter++%>>delete</button>
+                    <button name="delete" type="submit" class="btn btn-danger" value= <%= element.id %>>delete</button>
                 </form>
             </td>
         </tr>

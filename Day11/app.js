@@ -1,8 +1,7 @@
-const services = require('./services/services');
-
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const { body, validationResult } = require('express-validator');
+const db = require('./db/db');
 const morgan = require('morgan');
 
 const app = express();
@@ -24,7 +23,7 @@ app.post('/contact',
     async (req, res) => {
         try {
             // create contact to add/update or saved as lastInputedData
-            let lastInput = services.createContact(req.body.nama, req.body.telepon, req.body.email);
+            let lastInput = {nama:req.body.nama, telepon:req.body.telepon, email:req.body.email};
 
             // error checking and assigning error message
             const check_result = validationResult(req);
@@ -38,16 +37,16 @@ app.post('/contact',
                 }
                 // error routing
                 if (req.body.method == 'add') {
-                    const contacts = await services.getContacts();
+                    const contacts = await db.getUsers();
                     res.render(`contact`, { title: 'ErrorAdd!', error_msg: ERROR_MSG, lastInput: lastInput, contacts: contacts });
                 } else if (req.body.method == 'update') {
                     res.render(`update`, { title: 'ErrorUpdate!', error_msg: ERROR_MSG, lastInput: lastInput, id: req.body.id, contact: lastInput });
                 }
             } else {
                 if (req.body.method == 'add') {
-                    await services.addContact(lastInput);
+                    await db.createUser(req.body.nama, req.body.telepon, req.body.email);
                 } else if (req.body.method == 'update') {
-                    await services.updateContact(req.body.id, lastInput);
+                    await db.updateUser(req.body.id, req.body.nama, req.body.telepon, req.body.email);
                 }
                 res.redirect('/contact');
             }
@@ -69,25 +68,25 @@ app.get('/contact', async (req, res) => {
     try {
         // routing detail
         if (req.query.id != null) {
-            const contacts = await services.getContacts();
-            res.render('detail', { title: 'Details', contact: contacts[req.query.id] });
+            const contact = await db.getUserById(req.query.id);
+            res.render('detail', { title: 'Details', contact: contact });
         }
 
         // routing delete
         else if (req.query.delete != null) {
-            await services.deleteContact(req.query.delete);
+            await db.deleteUser(req.query.delete);
             res.redirect('contact');
         }
 
         // routing update
         else if (req.query.update != null) {
-            const contacts = await services.getContacts();
-            res.render('update', { title: 'Update', contact: contacts[req.query.update], id: req.query.update });
+            const contact = await db.getUserById(req.query.update);
+            res.render('update', { title: 'Update', contact: contact, id: req.query.update});
         }
 
         // routing main contacts page
         else {
-            const contacts = await services.getContacts();
+            const contacts = await db.getUsers();
             res.render('contact', { title: 'Contacts', contacts: contacts });
         }
     } catch (error) {
