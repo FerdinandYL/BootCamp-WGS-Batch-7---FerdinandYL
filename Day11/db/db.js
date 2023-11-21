@@ -43,7 +43,7 @@ async function getUserById(userId) {
 }
 
 async function getUsers() {
-  const sqlQuery = 'SELECT * FROM contact_details';
+  const sqlQuery = 'SELECT * FROM contact_details ORDER BY id ASC';
 
   try {
     const result = await client.query(sqlQuery);
@@ -84,33 +84,6 @@ async function deleteUser(userId) {
 async function closeConnection() {
   await client.end();
 }
-
-// Example usage:
-// async function exampleUsage() {
-//   try {
-//     // Create a user
-//     const createdUser = await createUser('john_doe', 'john@example.com');
-//     console.log('Created user:', createdUser);
-
-//     // Read the user
-//     const retrievedUser = await getUserById(createdUser.id);
-//     console.log('Retrieved user:', retrievedUser);
-
-//     // Update the user
-//     const updatedUser = await updateUser(createdUser.id, 'john_smith', 'john.smith@example.com');
-//     console.log('Updated user:', updatedUser);
-
-//     // Delete the user
-//     const deletedUser = await deleteUser(updatedUser.id);
-//     console.log('Deleted user:', deletedUser);
-//   } finally {
-//     // Close the connection
-//     await closeConnection();
-//   }
-// }
-
-// Uncomment the following line to run the example
-// exampleUsage();
 
 module.exports = {
   createUser,

@@ -1,0 +1,66 @@
+===== PostgreSQL =====
+dalam sebuah sistem, peran database sangat penting.
+PostgreSQL adalah sebuah sistem ringan yang memudahkan kita mengolah data.
+
+MySQL dan PostgreSQL tidak bisa connect karena beda sistem.
+Tetapi oracle bisa baca semua karena hanya aplikasi baca.
+
+PostgreSQL : open-source RDBMS (source website nya)
+
+===== Features =====
+1. Asynchronous Replication.
+2. Data Integrity - support relational system.
+3. Inheritance - inherit characteristic of parent object.
+4. Locking Mechanism - performing security on the database.
+5. Non-relational support - JSON
+6. Point-in-time recovery - perform server backup continously.
+7. Procedural languages.
+8. Rule customization.
+9. Savepoint - handle errors on complex transactions.
+10. Tablespace - specifies storage media for database.
+
+===== Fungsi =====
+1. DDL (CREATE, DROP, ALTER)
+2. DML (INSERT, UPDATE, DELETE)
+3. DCL (GRANT, REVOKE)
+
+===== Kelebihan =====
+1. Open-source & Free.
+2. Free commercial use and update.
+3. Large scale.
+4. PostGIS.
+5. Ease clone. Multi-Master Replication (MMR).
+6. Self development.
+7. Documentation. 
+
+===== Cons =====
+1. Slow performance. (Nanya satu-satu baris)
+2. Lack in popularity.
+
+
+
+===== ReactJS =====
+
+library JavaScript yang dipake buat UI.
+
+===== Advantages =====
+1. Declarative Views - more predictable and debugable codes.
+2. Component based - able to build Encapsulated Component.
+3. Learn once, write anywhere - bisa dimana mana.
+
+===== popularity(2021) =====
+        #1 di dunia.
+      40% pake ReactJS
+
+===== Why? =====
+1. Simple
+2. Easy to Learn
+3. One-way Data Binding (arsitektur Flux)
+4. Performances
+5. Testability
+
+===== Features =====
+1. JSX
+2. VDOM
+3. Single Way Data Flow
+4. React Native

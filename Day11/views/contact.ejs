@@ -7,35 +7,35 @@
 <% } 
 else { %>
     <table class="table table-striped">
-        <thead class="thead-dark">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="align-middle">Nama</th>
+                    <th scope="col" class="align-middle">Nomor</th>
+                    <th scope="col" class="align-middle">Action
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#TambahKontak">
+                            Tambah kontak +
+                        </button>
+                    </th>
+                </tr>
+            </thead>
+        <% contacts.forEach(element => { %>
             <tr>
-                <th scope="col" class="align-middle">Nama</th>
-                <th scope="col" class="align-middle">Nomor</th>
-                <th scope="col" class="align-middle">Action
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#TambahKontak">
-                        Tambah kontak +
-                    </button>
-                </th>
+                <td><%= element.nama %></td>
+                <td><%= element.telepon %></td>
+                <td>
+                    <form action="/contact" method="get" style="display: inline-block;">
+                        <button name="id" type="submit" class="btn btn-info" value= <%= element.id %>>detail</button>
+                    </form>
+                    <form action="/contact" method="get" style="display: inline-block;">
+                        <button name="update" type="submit" class="btn btn-warning" value= <%= element.id %>>update</button>
+                    </form>
+                    <form action="/contact" method="get" style="display: inline-block;">
+                        <button name="delete" type="submit" class="btn btn-danger" value= <%= element.id %>>delete</button>
+                    </form>
+                </td>
             </tr>
-        </thead>
-    <% contacts.forEach(element => { %>
-        <tr>
-            <td><%= element.nama %></td>
-            <td><%= element.telepon %></td>
-            <td>
-                <form action="/contact" method="get" style="display: inline-block;">
-                    <button name="id" type="submit" class="btn btn-info" value= <%= element.id %>>detail</button>
-                </form>
-                <form action="/contact" method="get" style="display: inline-block;">
-                    <button name="update" type="submit" class="btn btn-warning" value= <%= element.id %>>update</button>
-                </form>
-                <form action="/contact" method="get" style="display: inline-block;">
-                    <button name="delete" type="submit" class="btn btn-danger" value= <%= element.id %>>delete</button>
-                </form>
-            </td>
-        </tr>
-    <% }) %>
-</table>
+        <% }) %>
+    </table>
 <% } %>
 <div class="modal" id="TambahKontak">
         <div class="modal-dialog">
