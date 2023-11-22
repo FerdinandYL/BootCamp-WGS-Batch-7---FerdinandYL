@@ -1,0 +1,6 @@
+===== JSX =====
+React -> library yang mendefinisikan component dan menentukan gimana antara component dapat bekerja sama.
+ReactDOM -> library yang menampilkan React ke web browser.
+
+const el = document.getElementById('root');
+const root = ReactDOM.createRoot(el);
