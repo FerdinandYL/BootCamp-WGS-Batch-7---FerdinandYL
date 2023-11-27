@@ -1,0 +1,6 @@
+===== LifeCycle Methods =====
+Kenapa pake? biar irit. (mempercepat response)
+
+===== Handling User Input with Form and Events =====
+
+===== API Request with REACT =====
