@@ -6,6 +6,22 @@ import React from 'react';
 // import VideoPlayer from './components/VideoPlayer';
 import FavoriteColor from './components/FavoriteColor';
 import Car from './components/Car';
+import { Provider } from 'react-redux'
+import { configureStore } from '@reduxjs/toolkit'
+
+const Redux = require('redux');
+
+const rootReducer = (currentState = 0, action) => {
+  switch (action.type) {
+    case 'INCREMENT':
+      return currentState + 1;
+    default:
+      return currentState + 1;
+  }
+};
+
+const store = configureStore({reducer:rootReducer});
+console.log(store.getState());
 
 function App() {
   // const [search, setSearch] = React.useState("");
@@ -84,14 +100,17 @@ function App() {
   // }
 
   return (
-    <div className="App">
-      {/* <SearchNav handleInput={handleInputSearch} search={search} handleSearch={handleSearchClick} />
-      <div style={{ width: '100%', height: '100%', display: 'flex', margin: '10px' }}>
-        <VideoPlayer embedHtml={player} />
-        <VideoList data={result} handleClick={handleVideoClick} />
-      </div> */}
-      <Car/>
-    </div>
+    // <div className="App">
+    //   <SearchNav handleInput={handleInputSearch} search={search} handleSearch={handleSearchClick} />
+    //   <div style={{ width: '100%', height: '100%', display: 'flex', margin: '10px' }}>
+    //     <VideoPlayer embedHtml={player} />
+    //     <VideoList data={result} handleClick={handleVideoClick} />
+    //   </div> 
+    //   <Car/>
+    <Provider store={store}>
+      <button onClick={()=>{store.dispatch({type:'INCREMENT'})}}>{store.getState()}</button>
+    </Provider>
+    // </div>
   );
 }
 

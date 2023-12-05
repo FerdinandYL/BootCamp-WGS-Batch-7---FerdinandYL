@@ -38,11 +38,13 @@ export default function ModalForm({handleClickClose, handleClickSave}){
         }} onClick={handleClickClose}>
         <div className="ui active modal" style={{
             position: 'fixed',
+            height: '55%',
+            maxWidth: '40vw',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
         }}>
-            <form className="ui form" onSubmit={(e)=>{e.preventDefault();e.stopPropagation()}} style={{
+            <form className="ui form" onSubmit={(e)=>{e.preventDefault()}} onClick={(e)=>{e.stopPropagation()}} style={{
                 margin:'10px'
             }}>
                 <h3 className="ui dividing header">Menambah Data Mobil</h3>

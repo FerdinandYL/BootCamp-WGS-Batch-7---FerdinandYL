@@ -1,0 +1,5 @@
+===== React Router DOM =====
+dipakai buat routing.
+
+===== Styled Component =====
+dipakai buat styling.
